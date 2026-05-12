@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
 struct node
@@ -83,7 +84,7 @@ struct node *deleteNode(struct node *head, int key)
 {
     if (head == NULL)
     {
-        return NULL;
+        return NULL; // an h lista einai adeia
     }
     struct node *temp = head;
     struct node *temp1 = NULL;
@@ -94,7 +95,7 @@ struct node *deleteNode(struct node *head, int key)
     }
     if (temp == NULL)
     {
-        return head;
+        return NULL;
     }
     temp1->next = temp->next;
     free(temp);
@@ -115,16 +116,106 @@ void *printList(struct node *head)
 int main()
 {
     struct node *head = NULL;
+    int value, choise;
 
-    head = insertAtTail(head,10);
-    head = insertAtTail(head,20);
-    head = insertAtTail(head,30);
-    head = insertAtHead(head,98);
+state:
+    printf("Choose an option:\n1)Insert at head\n2)Insert at Tail\n3)Search for a node\n4)Delete a node\n");
+    scanf("%d", &choise);
 
-    printList(head);
+    while (choise < 1 || choise > 4)
+    {
+        printf("Wrong choise! Please re-enter your choise!");
+        scanf("%d", &choise);
+    }
+    printf("If you want to change your choise, enter '0'\n");
+    printf("If you want to stop the input, type -1\n");
 
-    deleteNode(head,20);
-    
+    if (choise == 1 || choise == 2)
+    {
+        while (1)
+        {
+            printf("Value: ");
+            scanf("%d", &value);
+
+            if (value == -1)
+            {
+                break;
+            }
+            if (value == 0)
+            {
+                goto state;
+            }
+            if (choise == 1)
+            {
+                head = insertAtHead(head, value);
+            }
+            else
+            {
+                head = insertAtTail(head, value);
+            }
+        }
+    }
+    else if (choise == 3)
+    {
+        char c, v;
+        do
+        {
+            printf("Give a node to search: ");
+            int a;
+            scanf("%d", &a);
+            if (a == 0)
+            {
+                goto state;
+            }
+            if (searchNode(head, a) == NULL)
+            {
+                printf("The node doesn't exist!\n");
+            }
+            else
+            {
+                printf("The node you searched for exists!\n");
+            }
+            printf("Do you want to search for another Node? (y/n)\n");
+            scanf("%c", c);
+            while (c != 'y' && c != 'n')
+            {
+                printf("Wrong choise! Try again\n");
+                scanf("%c", c);
+            }
+        } while (c == 'y');
+    }
+    else if (choise == 4)
+    {   
+        int b;
+        char c;
+        do
+        {   
+        printf("What to delete? : ");
+        scanf("%d", b);
+        if (b == 0)
+        {
+            goto state;
+        }
+        if (deleteNode(head, b) == NULL)
+        {
+            printf("The node you entered, doesn't exist!\n");
+        }
+        else
+        {
+            printf("Node successufully deleted!\n");
+        }
+        printf("Do you want another node deleted?(y/n)\n");
+        scanf("%c", c);
+        while (c != 'y' || c != 'n')
+        {
+            printf("Wrong choise, Try again!\n");
+            scanf("%c", c);
+        }
+            /* code */
+        } while (c == 'y');
+
+    }
+
     printList(head);
 
     return 0;
