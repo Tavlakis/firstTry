@@ -65,6 +65,42 @@ struct node *insertAtTail(struct node *head, int data)
     return head;
 }
 
+struct node *searchNode(struct node *head, int key)
+{
+    struct node *temp = head;
+    while (temp != NULL)
+    {
+        if (temp->data == key)
+        {
+            return temp;
+        }
+        temp = temp->next;
+    }
+    return NULL;
+}
+
+struct node *deleteNode(struct node *head, int key)
+{
+    if (head == NULL)
+    {
+        return NULL;
+    }
+    struct node *temp = head;
+    struct node *temp1 = NULL;
+    while (temp != NULL && temp->data != key)
+    {
+        temp1 = temp;
+        temp = temp->next;
+    }
+    if (temp == NULL)
+    {
+        return head;
+    }
+    temp1->next = temp->next;
+    free(temp);
+    return head;
+}
+
 void *printList(struct node *head)
 {
     struct node *temp = head;
